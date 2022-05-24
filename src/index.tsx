@@ -8,7 +8,6 @@ const App = () => {
   const ref = useRef<any>();
   const iframe = useRef<any>();
   const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -21,6 +20,9 @@ const App = () => {
     if (!ref.current) {
       return;
     }
+
+    iframe.current.srcdoc = html;
+
     const result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -68,8 +70,12 @@ const App = () => {
       ></textarea>
       <div>
         <button onClick={onClick}>Submit</button>
-        <pre>{code}</pre>
-        <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+        <iframe
+          title="preview"
+          ref={iframe}
+          sandbox="allow-scripts"
+          srcDoc={html}
+        />
       </div>
     </div>
   );
