@@ -34,6 +34,11 @@ const App = () => {
     // console.log(result);
 
     setCode(result.outputFiles[0].text);
+    try {
+      eval(result.outputFiles[0].text);
+    } catch (err) {
+      alert(err);
+    }
   };
   useEffect(() => {
     startService();
@@ -48,6 +53,7 @@ const App = () => {
       <div>
         <button onClick={onClick}>Submit</button>
         <pre>{code}</pre>
+        <iframe src="/test.html"></iframe>
       </div>
     </div>
   );
