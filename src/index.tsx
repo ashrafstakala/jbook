@@ -31,15 +31,15 @@ const App = () => {
       },
     });
 
-    // console.log(result);
-
     setCode(result.outputFiles[0].text);
-    try {
-      eval(result.outputFiles[0].text);
-    } catch (err) {
-      alert(err);
-    }
   };
+
+  const html = `
+  <script>
+  ${code}
+  </script>
+  `;
+
   useEffect(() => {
     startService();
   }, []);
@@ -53,7 +53,7 @@ const App = () => {
       <div>
         <button onClick={onClick}>Submit</button>
         <pre>{code}</pre>
-        <iframe src="/test.html"></iframe>
+        <iframe sandbox="allow-scripts" srcDoc={html} />
       </div>
     </div>
   );
