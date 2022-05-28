@@ -29,7 +29,7 @@ const reducer = produce((state = initialState, action: Action) => {
     case ActionType.DELETE_CELL:
       delete state.data[action.payload];
       state.order = state.order.filter((id: string) => id !== action.payload);
-      return;
+      return state;
 
     case ActionType.MOVE_CELL:
       const { direction } = action.payload;
@@ -39,12 +39,12 @@ const reducer = produce((state = initialState, action: Action) => {
       const targetIndex = direction === 'up' ? index - 1 : index + 1;
 
       if (targetIndex < 0 || targetIndex > state.order.length - 1) {
-        return;
+        return state;
       }
 
       state.order[index] = state.order[targetIndex];
       state.order[targetIndex] = action.payload.id;
-      return;
+      return state;
 
     case ActionType.INSERT_CELL_BEFORE:
       const cell: Cell = {
@@ -64,7 +64,6 @@ const reducer = produce((state = initialState, action: Action) => {
       } else {
         state.order.splice(foundIndex, 0, cell.id);
       }
-
       return state;
 
     default:
